@@ -1,0 +1,6 @@
+[submodule "runtime/PHP"]
+	path = runtime/PHP
+	url = https://github.com/antlr/antlr-php-runtime.git
+[submodule "runtime/Rust"]
+	path = runtime/Rust
+	url = https://github.com/nmeylan/antlr4rust

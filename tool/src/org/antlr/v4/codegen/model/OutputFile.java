@@ -6,8 +6,10 @@
 
 package org.antlr.v4.codegen.model;
 
+import org.antlr.runtime.CommonToken;
 import org.antlr.v4.Tool;
 import org.antlr.v4.codegen.OutputModelFactory;
+import org.antlr.v4.parse.ANTLRParser;
 import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.ast.ActionAST;
 
@@ -35,7 +37,9 @@ public abstract class OutputFile extends OutputModelObject {
 		Map<String, Action> namedActions = new HashMap<String, Action>();
 		for (String name : g.namedActions.keySet()) {
 			ActionAST ast = g.namedActions.get(name);
-			namedActions.put(name, new Action(factory, ast));
+			String processedText = factory.getGenerator().getTarget().processActionText(ast.getText());
+			ActionAST action = new ActionAST(new CommonToken(ANTLRParser.ACTION, processedText));
+			namedActions.put(name, new Action(factory, action));
 		}
 		return namedActions;
 	}

@@ -44,6 +44,10 @@ public class ParseTreesDescriptors {
 		@CommentHasStringValue
 		public String grammar;
 
+		@Override
+		public boolean ignore(String targetName) {
+			return targetName.equals("Rust");
+		}
 	}
 
 	public static class ExtraToken extends BaseParserTestDescriptor {
@@ -112,7 +116,7 @@ public class ParseTreesDescriptors {
 
 		@Override
 		public boolean ignore(String targetName) {
-			return !targetName.matches("Java|Python2|Python3|Node|Swift|CSharp|Dart");
+			return !targetName.matches("Java|Python2|Python3|Node|Swift|CSharp|Rust|Dart");
 		}
 	}
 

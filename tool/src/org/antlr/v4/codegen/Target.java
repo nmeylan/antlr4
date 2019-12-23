@@ -18,15 +18,8 @@ import org.antlr.v4.tool.ErrorType;
 import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.Rule;
 import org.antlr.v4.tool.ast.GrammarAST;
-import org.stringtemplate.v4.NumberRenderer;
-import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STErrorListener;
-import org.stringtemplate.v4.STGroup;
-import org.stringtemplate.v4.STGroupFile;
-import org.stringtemplate.v4.StringRenderer;
+import org.stringtemplate.v4.*;
 import org.stringtemplate.v4.misc.STMessage;
-
-import java.net.URL;
 
 /** */
 public abstract class Target {
@@ -558,6 +551,11 @@ public abstract class Target {
 		});
 
 		return result;
+	}
+
+	// Override if target need to preprocess actions, for example support escape sequences
+	public String processActionText(String text) {
+		return text;
 	}
 
 	/**

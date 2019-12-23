@@ -227,7 +227,7 @@ public class CompositeParsersDescriptors {
 
 		/**
 		parser grammar S;
-		a[int x] returns [int y] : B {<write("\"S.a\"")>} {$y=1000;} ;
+		a[<IntArg("x")>] returns [<IntArg("y")>] : B {<write("\"S.a\"")>} {$y=1000;} ;
 		 */
 		@CommentHasStringValue
 		public String slaveGrammarS;

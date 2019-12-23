@@ -90,7 +90,7 @@ public class SemPredEvalParserDescriptors {
 		/**
 		 grammar T;
 		 start : e[0] EOF;
-		 e[int _p]
+		 e[<IntArg("_p")>]
 		     :   ( 'a' | 'b'+ ) ( {3 >= $_p}? '+' e[4] )*
 		     ;
 
@@ -100,14 +100,15 @@ public class SemPredEvalParserDescriptors {
 
 	}
 
-	/** We cannot collect predicates that are dependent on local context if
-	 *  we are doing a global follow. They appear as if they were not there at all.
+	/**
+	 * We cannot collect predicates that are dependent on local context if
+	 * we are doing a global follow. They appear as if they were not there at all.
 	 */
-	public static class DepedentPredsInGlobalFOLLOW extends BaseParserTestDescriptor {
+	public static class DependentPredsInGlobalFOLLOW extends BaseParserTestDescriptor {
 		public String input = "a!";
 		/**
-		eval=true
-		parse
+		  eval=true
+		  parse
 		 */
 		@CommentHasStringValue
 		public String output;
@@ -122,8 +123,8 @@ public class SemPredEvalParserDescriptors {
 		 <Declare_pred()>
 		 }
 		 s : a[99] ;
-		 a[int i] : e {<ValEquals("$i","99"):Invoke_pred()>}? {<writeln("\"parse\"")>} '!' ;
-		 b[int i] : e {<ValEquals("$i","99"):Invoke_pred()>}? ID ;
+		 a[<IntArg("i")>] : e {<ValEquals("$i","99"):Invoke_pred()>}? {<writeln("\"parse\"")>} '!' ;
+		 b[<IntArg("i")>] : e {<ValEquals("$i","99"):Invoke_pred()>}? ID ;
 		 e : ID | ; // non-LL(1) so we use ATN
 		 ID : 'a'..'z'+ ;
 		 INT : '0'..'9'+;
@@ -269,7 +270,7 @@ public class SemPredEvalParserDescriptors {
 		 @after {<ToStringTree("$ctx"):writeln()>}
 		   : para para EOF ;
 		 para: paraContent NL NL ;
-		 paraContent : ('s'|'x'|{<LANotEquals("2",{T<ParserToken("Parser", "NL")>})>}? NL)+ ;
+		 paraContent : ('s'|'x'|{<LANotEquals("2",{<ParserToken("TParser", "NL")>})>}? NL)+ ;
 		 NL : '\n' ;
 		 s : 's' ;
 		 X : 'x' ;
@@ -291,7 +292,7 @@ public class SemPredEvalParserDescriptors {
 
 		@Override
 		public boolean ignore(String targetName) {
-			return !"Java".equals(targetName) && !"Swift".equals(targetName);
+			return !"Java".equals(targetName) && !"Swift".equals(targetName) && !"Rust".equals(targetName);
 		}
 	}
 
@@ -355,7 +356,7 @@ public class SemPredEvalParserDescriptors {
 		 grammar T;
 		 @parser::members {<InitIntMember("i","0")>}
 		 s : a[2] a[1];
-		 a[int i]
+		 a[<IntArg("i")>]
 		   : {<ValEquals("$i","1")>}? ID {<writeln("\"alt 1\"")>}
 		   | {<ValEquals("$i","2")>}? ID {<writeln("\"alt 2\"")>}
 		   ;
@@ -389,7 +390,7 @@ public class SemPredEvalParserDescriptors {
 		 grammar T;
 		 @parser::members {<InitIntMember("i","0")>}
 		 s : a[2] a[1];
-		 a[int i]
+		 a[<IntArg("i")>]
 		   : {<ValEquals("$i","1")>}? ID
 		   | {<ValEquals("$i","2")>}? ID
 		   ;

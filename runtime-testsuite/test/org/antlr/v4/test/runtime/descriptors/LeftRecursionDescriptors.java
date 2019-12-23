@@ -524,7 +524,7 @@ public class LeftRecursionDescriptors {
 		/**
 		 grammar T;
 		 s : e {<writeln("$e.v")>};
-		 e returns [int v]
+		 e returns [<IntArg("v")>]
 		   : e '*' e     {$v = <Cast("BinaryContext","$ctx"):ContextMember({<Production("e")>(0)}, {<Result("v")>})> * <Cast("BinaryContext","$ctx"):ContextMember({<Production("e")>(1)}, {<Result("v")>})>;}  # binary
 		   | e '+' e     {$v = <Cast("BinaryContext","$ctx"):ContextMember({<Production("e")>(0)}, {<Result("v")>})> + <Cast("BinaryContext","$ctx"):ContextMember({<Production("e")>(1)}, {<Result("v")>})>;}  # binary
 		   | INT         {$v = $INT.int;}                   # anInt
@@ -672,11 +672,11 @@ public class LeftRecursionDescriptors {
 		/**
 		 grammar T;
 		 s : q=e {<writeln("$e.v")>};
-		 e returns [int v]
+		 e returns [<IntArg("v")>]
 		   : a=e op='*' b=e {$v = $a.v * $b.v;}  # mult
 		   | a=e '+' b=e {$v = $a.v + $b.v;}     # add
 		   | INT         {$v = $INT.int;}        # anInt
-		   | '(' x=e ')' {$v = $x.v;}            # parens
+		   | '(' x=e ')' {$v = 0 + $x.v;}        # parens
 		   | x=e '++'    {$v = $x.v+1;}          # inc
 		   | e '--'                              # dec
 		   | ID          {$v = 3;}               # anID
@@ -822,11 +822,11 @@ public class LeftRecursionDescriptors {
 		/**
 		 grammar T;
 		 s : e {<writeln("$e.v")>};
-		 e returns [int v, <StringList()> ignored]
+		 e returns [<IntArg("v")>, <StringList()> ignored]
 		   : a=e '*' b=e {$v = $a.v * $b.v;}
 		   | a=e '+' b=e {$v = $a.v + $b.v;}
 		   | INT {$v = $INT.int;}
-		   | '(' x=e ')' {$v = $x.v;}
+		   | '(' x=e ')' {$v = 0 + $x.v;}
 		   ;
 		 INT : '0'..'9'+ ;
 		 WS : (' '|'\n') -> skip ;
